@@ -7,7 +7,9 @@
 //
 
 #import "JMMViewController.h"
-
+#import "JMMPagingController.h"
+#import "JMMViewControllerBlue.h"
+#import "JMMViewControllerRed.h"
 @interface JMMViewController ()
 
 @end
@@ -24,6 +26,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)doWork:(id)sender {
+    JMMPagingController *pager = [JMMPagingController pagingControllerWithFirstControllerClass:[JMMViewControllerBlue class] andSecondControllerClass:[JMMViewControllerRed class]];
+    
+    [self.view.window setRootViewController:pager];
 }
 
 @end

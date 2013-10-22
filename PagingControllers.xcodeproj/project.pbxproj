@@ -21,6 +21,11 @@
 		62B7131B1816216500184C82 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62B712FD1816216500184C82 /* UIKit.framework */; };
 		62B713231816216500184C82 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 62B713211816216500184C82 /* InfoPlist.strings */; };
 		62B713251816216500184C82 /* PagingControllersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B713241816216500184C82 /* PagingControllersTests.m */; };
+		62B713301816228400184C82 /* JMMPagingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B7132F1816228400184C82 /* JMMPagingController.m */; };
+		62B713331816283800184C82 /* UIView+SizeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B713321816283800184C82 /* UIView+SizeHelper.m */; };
+		62B713361816381200184C82 /* JMMViewControllerRed.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B713351816381200184C82 /* JMMViewControllerRed.m */; };
+		62B713391816381E00184C82 /* JMMViewControllerBlue.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B713381816381E00184C82 /* JMMViewControllerBlue.m */; };
+		62B7133C18163C8600184C82 /* JMMPagingControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B7133B18163C8600184C82 /* JMMPagingControllerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,16 @@
 		62B713201816216500184C82 /* PagingControllersTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PagingControllersTests-Info.plist"; sourceTree = "<group>"; };
 		62B713221816216500184C82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		62B713241816216500184C82 /* PagingControllersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PagingControllersTests.m; sourceTree = "<group>"; };
+		62B7132E1816228400184C82 /* JMMPagingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMPagingController.h; sourceTree = "<group>"; };
+		62B7132F1816228400184C82 /* JMMPagingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMPagingController.m; sourceTree = "<group>"; };
+		62B713311816283800184C82 /* UIView+SizeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SizeHelper.h"; sourceTree = "<group>"; };
+		62B713321816283800184C82 /* UIView+SizeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SizeHelper.m"; sourceTree = "<group>"; };
+		62B713341816381200184C82 /* JMMViewControllerRed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMViewControllerRed.h; sourceTree = "<group>"; };
+		62B713351816381200184C82 /* JMMViewControllerRed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMViewControllerRed.m; sourceTree = "<group>"; };
+		62B713371816381E00184C82 /* JMMViewControllerBlue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMViewControllerBlue.h; sourceTree = "<group>"; };
+		62B713381816381E00184C82 /* JMMViewControllerBlue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMViewControllerBlue.m; sourceTree = "<group>"; };
+		62B7133A18163C8600184C82 /* JMMPagingControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMPagingControllerView.h; sourceTree = "<group>"; };
+		62B7133B18163C8600184C82 /* JMMPagingControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMPagingControllerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,13 +127,23 @@
 		62B712FF1816216500184C82 /* PagingControllers */ = {
 			isa = PBXGroup;
 			children = (
+				62B713311816283800184C82 /* UIView+SizeHelper.h */,
+				62B713321816283800184C82 /* UIView+SizeHelper.m */,
 				62B713081816216500184C82 /* JMMAppDelegate.h */,
 				62B713091816216500184C82 /* JMMAppDelegate.m */,
 				62B7130B1816216500184C82 /* Main.storyboard */,
 				62B7130E1816216500184C82 /* JMMViewController.h */,
 				62B7130F1816216500184C82 /* JMMViewController.m */,
+				62B713341816381200184C82 /* JMMViewControllerRed.h */,
+				62B713351816381200184C82 /* JMMViewControllerRed.m */,
+				62B713371816381E00184C82 /* JMMViewControllerBlue.h */,
+				62B713381816381E00184C82 /* JMMViewControllerBlue.m */,
 				62B713111816216500184C82 /* Images.xcassets */,
 				62B713001816216500184C82 /* Supporting Files */,
+				62B7132E1816228400184C82 /* JMMPagingController.h */,
+				62B7132F1816228400184C82 /* JMMPagingController.m */,
+				62B7133A18163C8600184C82 /* JMMPagingControllerView.h */,
+				62B7133B18163C8600184C82 /* JMMPagingControllerView.m */,
 			);
 			path = PagingControllers;
 			sourceTree = "<group>";
@@ -251,8 +276,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				62B713061816216500184C82 /* main.m in Sources */,
+				62B713391816381E00184C82 /* JMMViewControllerBlue.m in Sources */,
 				62B7130A1816216500184C82 /* JMMAppDelegate.m in Sources */,
+				62B713301816228400184C82 /* JMMPagingController.m in Sources */,
 				62B713101816216500184C82 /* JMMViewController.m in Sources */,
+				62B7133C18163C8600184C82 /* JMMPagingControllerView.m in Sources */,
+				62B713331816283800184C82 /* UIView+SizeHelper.m in Sources */,
+				62B713361816381200184C82 /* JMMViewControllerRed.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
