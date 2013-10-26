@@ -9,6 +9,7 @@
 #import "JMMViewController.h"
 #import "JMMPagingController.h"
 #import "JMMViewControllerBlue.h"
+#import "JMMViewControllerGreen.h"
 #import "JMMViewControllerRed.h"
 @interface JMMViewController ()
 
@@ -28,7 +29,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)doWork:(id)sender {
-    JMMPagingController *pager = [JMMPagingController pagingControllerWithFirstControllerClass:[JMMViewControllerBlue class] andSecondControllerClass:[JMMViewControllerRed class]];
+    JMMPagingController *pager = [JMMPagingController pagingControllerWithControllerClasses:@[[JMMViewControllerBlue class],[JMMViewControllerRed class], [JMMViewControllerGreen class]]];
     
     [self.view.window setRootViewController:pager];
 }

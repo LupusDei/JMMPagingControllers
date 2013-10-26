@@ -26,6 +26,7 @@
 		62B713361816381200184C82 /* JMMViewControllerRed.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B713351816381200184C82 /* JMMViewControllerRed.m */; };
 		62B713391816381E00184C82 /* JMMViewControllerBlue.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B713381816381E00184C82 /* JMMViewControllerBlue.m */; };
 		62B7133C18163C8600184C82 /* JMMPagingControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B7133B18163C8600184C82 /* JMMPagingControllerView.m */; };
+		62BBCDB21819EF0A00E9FB30 /* JMMViewControllerGreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BBCDB11819EF0A00E9FB30 /* JMMViewControllerGreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		62B713381816381E00184C82 /* JMMViewControllerBlue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMViewControllerBlue.m; sourceTree = "<group>"; };
 		62B7133A18163C8600184C82 /* JMMPagingControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMPagingControllerView.h; sourceTree = "<group>"; };
 		62B7133B18163C8600184C82 /* JMMPagingControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMPagingControllerView.m; sourceTree = "<group>"; };
+		62BBCDB01819EF0A00E9FB30 /* JMMViewControllerGreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMViewControllerGreen.h; sourceTree = "<group>"; };
+		62BBCDB11819EF0A00E9FB30 /* JMMViewControllerGreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMViewControllerGreen.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 				62B713351816381200184C82 /* JMMViewControllerRed.m */,
 				62B713371816381E00184C82 /* JMMViewControllerBlue.h */,
 				62B713381816381E00184C82 /* JMMViewControllerBlue.m */,
+				62BBCDB01819EF0A00E9FB30 /* JMMViewControllerGreen.h */,
+				62BBCDB11819EF0A00E9FB30 /* JMMViewControllerGreen.m */,
 				62B713111816216500184C82 /* Images.xcassets */,
 				62B713001816216500184C82 /* Supporting Files */,
 				62B7132E1816228400184C82 /* JMMPagingController.h */,
@@ -281,6 +286,7 @@
 				62B713301816228400184C82 /* JMMPagingController.m in Sources */,
 				62B713101816216500184C82 /* JMMViewController.m in Sources */,
 				62B7133C18163C8600184C82 /* JMMPagingControllerView.m in Sources */,
+				62BBCDB21819EF0A00E9FB30 /* JMMViewControllerGreen.m in Sources */,
 				62B713331816283800184C82 /* UIView+SizeHelper.m in Sources */,
 				62B713361816381200184C82 /* JMMViewControllerRed.m in Sources */,
 			);
@@ -491,6 +497,7 @@
 				62B7132A1816216500184C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		62B7132B1816216500184C82 /* Build configuration list for PBXNativeTarget "PagingControllersTests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +506,7 @@
 				62B7132D1816216500184C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

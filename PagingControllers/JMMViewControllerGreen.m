@@ -1,27 +1,27 @@
 //
-//  JMMViewControllerBlue.m
+//  JMMViewControllerGreen.m
 //  PagingControllers
 //
-//  Created by Justin Martin on 10/22/13.
+//  Created by Justin Martin on 10/24/13.
 //  Copyright (c) 2013 JMM. All rights reserved.
 //
 
-#import "JMMViewControllerBlue.h"
+#import "JMMViewControllerGreen.h"
 
-@interface JMMViewControllerBlue ()
+@interface JMMViewControllerGreen ()
 
 @end
 
-@implementation JMMViewControllerBlue
+@implementation JMMViewControllerGreen
 
-+(JMMViewControllerBlue *) prepareController {
-    return [[JMMViewControllerBlue alloc] init];
+
++(JMMViewControllerGreen *) prepareController {
+    NSLog(@"PrepareController GREEN");
+    return [[JMMViewControllerGreen alloc] init];
 }
 
 -(void) controllerWillAppear {
-    [self.view setBackgroundColor:[UIColor blueColor]];
-    [self.view withHeight:200];
-    [self.view withY:180];
+    [self.view setBackgroundColor:[UIColor greenColor]];
 }
 
 -(void) controllerWillDisappear {
@@ -30,7 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	NSLog(@"Blue -- viewDidLoad");
+	NSLog(@"GREEN -- viewDidLoad");
 }
 
 -(void) viewDidAppear:(BOOL)animated {

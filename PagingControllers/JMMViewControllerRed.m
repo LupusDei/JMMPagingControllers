@@ -20,6 +20,8 @@
 
 -(void) controllerWillAppear {
     [self.view setBackgroundColor:[UIColor redColor]];
+    [self.view withHeight:320];
+    [self.view withY:50];
 }
 
 -(void) controllerWillDisappear {

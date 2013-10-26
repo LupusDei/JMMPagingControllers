@@ -14,4 +14,8 @@
 
 -(id) initWithPagingController:(JMMPagingController *)controller;
 
+-(void) enablePaging;
+-(void) disableForwardPaging;
+-(void) disableBackwardPaging;
+
 @end

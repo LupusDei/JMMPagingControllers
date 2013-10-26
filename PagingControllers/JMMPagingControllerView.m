@@ -20,6 +20,8 @@
     JMMPagingController *pager;
     CGPoint _firstTouch;
 	CGFloat _firstX;
+    BOOL canPageForward;
+    BOOL canPageBackward;
 }
 
 -(id) initWithPagingController:(JMMPagingController *)controller {
@@ -30,24 +32,37 @@
     return self;
 }
 
+-(void) enablePaging {
+    canPageForward = YES;
+    canPageBackward = YES;
+}
+-(void) disableForwardPaging {
+    canPageForward = NO;
+}
+-(void) disableBackwardPaging {
+    canPageBackward = NO;
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
 	_firstTouch = [touch locationInView:self];
-    NSLog(@"Touch bega - %@", NSStringFromCGPoint(_firstTouch));
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
 	CGPoint touchPoint = [touch locationInView:self];
 	UIView *currentView = [pager currentForegroundView];
-    UIView *nextView = [pager nextForegroundView];
 	CGFloat xPos = 0;
 	
-    if (touchPoint.x < _firstTouch.x) {
-        xPos = touchPoint.x - _firstTouch.x;
-    }
+    xPos = touchPoint.x - _firstTouch.x;
+    if (xPos < 0 && !canPageForward)
+        return;
+	if (xPos > 0 && !canPageBackward)
+        return;
+    
+    [[pager previousForegroundView] withX:xPos - currentView.width];
     [currentView withX:xPos];
-    [nextView withX:xPos + currentView.width];        
+    [[pager nextForegroundView] withX:xPos + currentView.width];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -55,9 +70,11 @@
 	CGPoint touchPoint = [touch locationInView:self];
 	CGFloat xPos = touchPoint.x - _firstTouch.x;
     
-	if (abs(xPos) > DefaultDragPagingDistance)
+	if ((xPos * -1) > DefaultDragPagingDistance && canPageForward)
 		[self springToNextView];
-	else if ([pager currentForegroundView].x > 0)
+	else if (xPos > DefaultDragPagingDistance && canPageBackward)
+        [self springToPreviousView];
+    else
 		[self springBackToCurrentView];
 }
 
@@ -72,8 +89,10 @@
                      animations:^{
                          [[pager currentForegroundView] withX: -self.width];
                          [[pager nextForegroundView] withX:0];
+                         [[pager previousForegroundView] withX:-self.width];
                      }
                      completion:^(BOOL finished){
+                         [pager pageForward];
                      }];
 }
 
@@ -84,8 +103,23 @@
                      animations:^{
                          [[pager currentForegroundView] withX:0];
                          [[pager nextForegroundView] withX:self.width];
+                         [[pager previousForegroundView] withX:self.width * -1];
                      }
                      completion:^(BOOL finished){
+                     }];
+}
+
+-(void)springToPreviousView {
+	[UIView animateWithDuration:0.15
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [[pager currentForegroundView] withX:self.width];
+                         [[pager nextForegroundView] withX:self.width];
+                         [[pager previousForegroundView] withX:0];
+                     }
+                     completion:^(BOOL finished){
+                         [pager pageBackward];
                      }];
 }
 
