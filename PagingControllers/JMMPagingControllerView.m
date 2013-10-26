@@ -55,6 +55,8 @@
 	CGFloat xPos = 0;
 	
     xPos = touchPoint.x - _firstTouch.x;
+    if (![self hasReachedTriggerPoint:xPos])
+        return;
     if (xPos < 0 && !canPageForward)
         return;
 	if (xPos > 0 && !canPageBackward)
@@ -65,12 +67,16 @@
     [[pager nextForegroundView] withX:xPos + currentView.width];
 }
 
+-(BOOL) hasReachedTriggerPoint:(float)x {
+    return (x < 0 && -x > DefaultDragTriggerDistance) || (x > 0 && x > DefaultDragTriggerDistance);
+}
+
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
 	CGPoint touchPoint = [touch locationInView:self];
 	CGFloat xPos = touchPoint.x - _firstTouch.x;
     
-	if ((xPos * -1) > DefaultDragPagingDistance && canPageForward)
+	if ((-xPos) > DefaultDragPagingDistance && canPageForward)
 		[self springToNextView];
 	else if (xPos > DefaultDragPagingDistance && canPageBackward)
         [self springToPreviousView];
@@ -103,7 +109,7 @@
                      animations:^{
                          [[pager currentForegroundView] withX:0];
                          [[pager nextForegroundView] withX:self.width];
-                         [[pager previousForegroundView] withX:self.width * -1];
+                         [[pager previousForegroundView] withX:-self.width];
                      }
                      completion:^(BOOL finished){
                      }];

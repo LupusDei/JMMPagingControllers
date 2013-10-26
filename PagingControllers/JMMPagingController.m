@@ -71,7 +71,7 @@
     Class controller = [self.pagedControllersClasses objectAtIndex:index];
 	page = [((id<PagedController>) controller) prepareController];
     [page controllerWillAppear];
-    float xPos = self.view.width * (index - currentPage) - 20;
+    float xPos = self.view.width * (index - currentPage);
     [page.view withX:xPos];
     [self.view addSubview:page.view];
     [self addChildViewController:page];
