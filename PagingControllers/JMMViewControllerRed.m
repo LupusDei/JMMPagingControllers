@@ -14,7 +14,7 @@
 
 @implementation JMMViewControllerRed
 
-+(JMMViewControllerRed *) prepareController {
++(JMMViewControllerRed *) prepareControllerWithPager:(JMMPagingController *)pager {
     return [[JMMViewControllerRed alloc] init];
 }
 
@@ -22,6 +22,7 @@
     [self.view setBackgroundColor:[UIColor redColor]];
     [self.view withHeight:320];
     [self.view withY:50];
+    NSLog(@"Red -- controllerWillAppear");
 }
 
 -(void) controllerWillDisappear {
@@ -36,6 +37,15 @@
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     NSLog(@"Red -- viewDidAppear");
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(80, 50, 120, 25)];
+    [button setTitle:@"A Button" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(buttonPressed) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    NSLog(@"Button: %@", button);
+}
+
+-(void) buttonPressed {
+    NSLog(@"Button Pressed");
 }
 
 - (void)didReceiveMemoryWarning

@@ -46,14 +46,25 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
 	_firstTouch = [touch locationInView:self];
+    
+    [self passBeganTouches:touches toCurrentForegroundViewForEvent:event];
+}
+
+-(void) passBeganTouches:(NSSet *)touches toCurrentForegroundViewForEvent:(UIEvent *)event {
+    CGPoint otherPoint = [[touches anyObject] locationInView:[pager currentForegroundView]];
+    UIView *currentHitView = [[pager currentForegroundView] hitTest:otherPoint withEvent:event];
+    NSLog(@"Began: point:%@ secondView: %@\nnextResp:%@", NSStringFromCGPoint(otherPoint), currentHitView, self.nextResponder);
+    [currentHitView touchesBegan:touches withEvent:event];
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self passMovedTouches:touches toCurrentForegroundViewForEvent:event];
+    
 	UITouch *touch = [touches anyObject];
 	CGPoint touchPoint = [touch locationInView:self];
 	UIView *currentView = [pager currentForegroundView];
 	CGFloat xPos = 0;
-	
+    
     xPos = touchPoint.x - _firstTouch.x;
     if (![self hasReachedTriggerPoint:xPos])
         return;
@@ -67,11 +78,19 @@
     [[pager nextForegroundView] withX:xPos + currentView.width];
 }
 
+-(void) passMovedTouches:(NSSet *)touches toCurrentForegroundViewForEvent:(UIEvent *)event {
+    CGPoint otherPoint = [[touches anyObject] locationInView:[pager currentForegroundView]];
+    UIView *currentHitView = [[pager currentForegroundView] hitTest:otherPoint withEvent:event];
+    NSLog(@"Moved: point:%@ secondView: %@", NSStringFromCGPoint(otherPoint), currentHitView);
+    [currentHitView touchesMoved:touches withEvent:event];
+}
+
 -(BOOL) hasReachedTriggerPoint:(float)x {
     return (x < 0 && -x > DefaultDragTriggerDistance) || (x > 0 && x > DefaultDragTriggerDistance);
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self passEndedTouches:touches toCurrentForegroundViewForEvent:event];
 	UITouch *touch = [touches anyObject];
 	CGPoint touchPoint = [touch locationInView:self];
 	CGFloat xPos = touchPoint.x - _firstTouch.x;
@@ -82,6 +101,13 @@
         [self springToPreviousView];
     else
 		[self springBackToCurrentView];
+}
+
+-(void) passEndedTouches:(NSSet *)touches toCurrentForegroundViewForEvent:(UIEvent *)event {
+    CGPoint otherPoint = [[touches anyObject] locationInView:[pager currentForegroundView]];
+    UIView *currentHitView = [[pager currentForegroundView] hitTest:otherPoint withEvent:event];
+    NSLog(@"Ended: point:%@ secondView: %@", NSStringFromCGPoint(otherPoint), currentHitView);
+    [currentHitView touchesEnded:touches withEvent:event];
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -130,5 +156,9 @@
 }
 
 
+//-(UIResponder *) nextResponder {
+//    NSLog(@"next responder");
+//    return [pager currentForegroundController];
+//}
 
 @end

@@ -15,7 +15,7 @@
 @implementation JMMViewControllerGreen
 
 
-+(JMMViewControllerGreen *) prepareController {
++(JMMViewControllerGreen *) prepareControllerWithPager:(JMMPagingController *)pager {
     NSLog(@"PrepareController GREEN");
     return [[JMMViewControllerGreen alloc] init];
 }

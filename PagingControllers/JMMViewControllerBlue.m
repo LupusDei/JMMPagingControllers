@@ -14,7 +14,7 @@
 
 @implementation JMMViewControllerBlue
 
-+(JMMViewControllerBlue *) prepareController {
++(JMMViewControllerBlue *) prepareControllerWithPager:(JMMPagingController *)pager {
     return [[JMMViewControllerBlue alloc] init];
 }
 

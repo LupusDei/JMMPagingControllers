@@ -17,5 +17,7 @@
 -(void) enablePaging;
 -(void) disableForwardPaging;
 -(void) disableBackwardPaging;
+-(void) springToNextView;
+-(void) springToPreviousView;
 
 @end

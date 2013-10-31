@@ -69,18 +69,32 @@
         return;
     }
     Class controller = [self.pagedControllersClasses objectAtIndex:index];
-	page = [((id<PagedController>) controller) prepareController];
+	page = [((id<PagedController>) controller) prepareControllerWithPager:self];
     [page controllerWillAppear];
     float xPos = self.view.width * (index - currentPage);
     [page.view withX:xPos];
     [self.view addSubview:page.view];
     [self addChildViewController:page];
     [self.pagedControllers addObject:page];
-    [self.view bringSubviewToFront:overlayView];
+//    [self.view bringSubviewToFront:overlayView];
+}
+
+-(void) skipToNextPage {
+    if (![self isAtLastPage])
+        [overlayView springToNextView];
+    
+}
+-(void) skipToPreviousPage {
+    if (![self isAtFirstPage])
+        [overlayView springToPreviousView];
+}
+
+-(UIViewController *)currentForegroundController {
+    return (UIViewController *)self.pagedControllers[currentPage];
 }
 
 -(UIView *) currentForegroundView {
-    return ((UIViewController *)self.pagedControllers[currentPage]).view;
+    return [self currentForegroundController].view;
 }
 
 -(UIView *) nextForegroundView {
