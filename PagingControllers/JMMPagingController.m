@@ -7,7 +7,11 @@
 //
 
 #import "JMMPagingController.h"
-#import "JMMPagingControllerView.h"
+
+#define DefaultDragTriggerDistance 25
+#define DefaultDragPagingDistance 140
+
+#define StandardWidth 320
 
 @interface JMMPagingController ()
 @property (nonatomic, strong) NSMutableArray *pagedControllersClasses;
@@ -16,7 +20,9 @@
 
 @implementation JMMPagingController {
 	int currentPage;
-    JMMPagingControllerView *overlayView;
+    BOOL canPageForward;
+    BOOL canPageBackward;
+    BOOL triggerWasReached;
 }
 
 +(JMMPagingController *) pagingControllerWithFirstControllerClass:(Class)first
@@ -47,11 +53,9 @@
 	[super viewDidLoad];
     currentPage = 0;
     [self.view setBackgroundColor:[UIColor yellowColor]];
-    overlayView = [[JMMPagingControllerView alloc] initWithPagingController:self];
-    [self.view addSubview:overlayView];
     [self addControllerAtIndex:0];
-    [overlayView enablePaging];
-    [overlayView disableBackwardPaging];
+    [self enablePaging];
+    [self disableBackwardPaging];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -60,10 +64,8 @@
 }
 
 -(void) addControllerAtIndex:(int)index {
-	NSLog(@"addCon at index:%d", index);
     UIViewController<PagedController> *page;
     if ([self hasAlreadyAddedControllerAtIndex:index]) {
-        NSLog(@"hasAlreadyAddedCOnroller :%d", index);
         page = [self.pagedControllers objectAtIndex:index];
         [page controllerWillAppear];
         return;
@@ -76,63 +78,177 @@
     [self.view addSubview:page.view];
     [self addChildViewController:page];
     [self.pagedControllers addObject:page];
-//    [self.view bringSubviewToFront:overlayView];
+    [self addPanGestureRecognizerToView:page.view];
+}
+
+-(void) addPanGestureRecognizerToView:(UIView *)view {
+    UIPanGestureRecognizer *panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(startedPanning:)];
+    [view addGestureRecognizer:panner];
 }
 
 -(void) skipToNextPage {
     if (![self isAtLastPage])
-        [overlayView springToNextView];
+        [self springToNextView];
     
 }
 -(void) skipToPreviousPage {
     if (![self isAtFirstPage])
-        [overlayView springToPreviousView];
+        [self springToPreviousView];
 }
 
--(UIViewController *)currentForegroundController {
-    return (UIViewController *)self.pagedControllers[currentPage];
+-(UIViewController<PagedController> *)currentForegroundController {
+    return (UIViewController<PagedController> *)self.pagedControllers[currentPage];
 }
 
 -(UIView *) currentForegroundView {
     return [self currentForegroundController].view;
 }
 
+-(UIViewController<PagedController> *)nextForegroundController {
+    if ([self isAtLastPage])
+        return nil;
+    return (UIViewController<PagedController> *)self.pagedControllers[currentPage + 1];
+}
+
 -(UIView *) nextForegroundView {
     if ([self isAtLastPage])
         return nil;
-    return ((UIViewController *)self.pagedControllers[currentPage + 1]).view;
+    return [self nextForegroundController].view;
+}
+
+-(UIViewController<PagedController> *)previousForegroundController {
+    if ([self isAtFirstPage])
+        return nil;
+    return (UIViewController<PagedController> *)self.pagedControllers[currentPage - 1];
 }
 
 -(UIView *) previousForegroundView {
     if ([self isAtFirstPage])
         return nil;
-    return ((UIViewController *)self.pagedControllers[currentPage - 1]).view;
+    return [self previousForegroundController].view;
 }
 
 -(void) pageForward {
     currentPage++;
-    [self page:@"pageForward"];
 
-    [overlayView enablePaging];
+    [self enablePaging];
     if ([self isAtLastPage])
-        [overlayView disableForwardPaging];
+        [self disableForwardPaging];
     else
         [self addControllerAtIndex:currentPage + 1];
 }
 -(void) pageBackward {
     currentPage--;
-    [self page:@"pageBack"];
 
-    [overlayView enablePaging];
+    [self enablePaging];
     if ([self isAtFirstPage])
-        [overlayView disableBackwardPaging];
+        [self disableBackwardPaging];
 }
+
+#pragma mark Panning
+-(void) enablePaging {
+    canPageForward = YES;
+    canPageBackward = YES;
+}
+-(void) disableForwardPaging {
+    canPageForward = NO;
+}
+-(void) disableBackwardPaging {
+    canPageBackward = NO;
+}
+
+-(void) startedPanning:(UIPanGestureRecognizer *)panner {
+	CGPoint newPoint = [panner translationInView:self.view];
+    if (panner.state == UIGestureRecognizerStateEnded) {
+        [self springAppropriatelyWithFinalX:newPoint.x];
+        triggerWasReached = NO;
+    }
+    else {
+        CGFloat x = newPoint.x;
+        if (![self hasReachedTriggerPoint:x]) return;
+        
+        if ([self isPanningBackward:x]) {
+            if (!canPageBackward) return;
+            if (!triggerWasReached)
+                [self.previousForegroundController controllerWillAppear];
+            x = x - DefaultDragTriggerDistance;
+        }
+        else {
+            if (!canPageForward) return;
+            if (!triggerWasReached)
+                [self.nextForegroundController controllerWillAppear];
+            x = x + DefaultDragTriggerDistance;
+        }
+        triggerWasReached = YES;
+        [self panAssociatedViewsWithNewX:x];
+    }
+}
+-(BOOL) isPanningBackward:(CGFloat)x {return x > 0;}
+
+-(void) panAssociatedViewsWithNewX:(CGFloat)x {
+    [self.previousForegroundView withX:-StandardWidth + x];
+    [self.currentForegroundView withX:x];
+    [self.nextForegroundView withX:StandardWidth + x];
+}
+
+-(BOOL) hasReachedTriggerPoint:(CGFloat)x {
+    return (x < 0 && -x > DefaultDragTriggerDistance) || (x > 0 && x > DefaultDragTriggerDistance);
+}
+
+-(void) springAppropriatelyWithFinalX:(CGFloat)x {
+    if (-x > DefaultDragPagingDistance && canPageForward)
+        [self springToNextView];
+    else if (x > DefaultDragPagingDistance && canPageBackward)
+        [self springToPreviousView];
+    else
+        [self springBackToCurrentView];
+}
+
+-(void) springToNextView {
+    [self.currentForegroundController controllerWillDisappear];
+	[UIView animateWithDuration:0.15
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [[self currentForegroundView] withX: -StandardWidth];
+                         [[self nextForegroundView] withX:0];
+                         [[self previousForegroundView] withX:-StandardWidth];
+                     }
+                     completion:^(BOOL finished){
+                         [self pageForward];
+                     }];
+}
+
+-(void)springBackToCurrentView {
+	[UIView animateWithDuration:0.15
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [[self currentForegroundView] withX:0];
+                         [[self nextForegroundView] withX:StandardWidth];
+                         [[self previousForegroundView] withX:-StandardWidth];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+-(void)springToPreviousView {
+    [self.currentForegroundController controllerWillDisappear];
+	[UIView animateWithDuration:0.15
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [[self currentForegroundView] withX:StandardWidth];
+                         [[self nextForegroundView] withX:StandardWidth];
+                         [[self previousForegroundView] withX:0];
+                     }
+                     completion:^(BOOL finished){
+                         [self pageBackward];
+                     }];
+}
+
 
 #pragma mark Internal Helpers
-
--(void) page:(NSString *)thing {
-    NSLog(@"%@    page: %d",thing, currentPage);
-}
 
 -(BOOL) isAtFirstPage {
     return currentPage == 0;

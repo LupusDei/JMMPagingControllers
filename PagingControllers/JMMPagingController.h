@@ -21,7 +21,7 @@
 +(JMMPagingController *) pagingControllerWithFirstControllerClass:(Class)first andSecondControllerClass:(Class)second;
 +(JMMPagingController *) pagingControllerWithControllerClasses:(NSArray *)controllers;
 
--(UIViewController *)currentForegroundController;
+-(UIViewController<PagedController> *)currentForegroundController;
 -(UIView *)currentForegroundView;
 -(UIView *) nextForegroundView;
 -(UIView *) previousForegroundView;
