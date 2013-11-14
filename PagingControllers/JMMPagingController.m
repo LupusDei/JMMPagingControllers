@@ -52,10 +52,10 @@
 {
 	[super viewDidLoad];
     currentPage = 0;
-    [self.view setBackgroundColor:[UIColor yellowColor]];
-    [self addControllerAtIndex:0];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     [self enablePaging];
     [self disableBackwardPaging];
+    [self addControllerAtIndex:0];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -67,12 +67,10 @@
     UIViewController<PagedController> *page;
     if ([self hasAlreadyAddedControllerAtIndex:index]) {
         page = [self.pagedControllers objectAtIndex:index];
-        [page controllerWillAppear];
         return;
     }
     Class controller = [self.pagedControllersClasses objectAtIndex:index];
 	page = [((id<PagedController>) controller) prepareControllerWithPager:self];
-    [page controllerWillAppear];
     float xPos = self.view.width * (index - currentPage);
     [page.view withX:xPos];
     [self.view addSubview:page.view];
@@ -130,7 +128,7 @@
 
 -(void) pageForward {
     currentPage++;
-
+    
     [self enablePaging];
     if ([self isAtLastPage])
         [self disableForwardPaging];
@@ -139,7 +137,7 @@
 }
 -(void) pageBackward {
     currentPage--;
-
+    
     [self enablePaging];
     if ([self isAtFirstPage])
         [self disableBackwardPaging];
@@ -147,10 +145,12 @@
 
 #pragma mark Panning
 -(void) enablePaging {
+    NSLog(@"Enable Paging");
     canPageForward = YES;
     canPageBackward = YES;
 }
 -(void) disableForwardPaging {
+    NSLog(@"Disable forward paging");
     canPageForward = NO;
 }
 -(void) disableBackwardPaging {
@@ -169,14 +169,22 @@
         
         if ([self isPanningBackward:x]) {
             if (!canPageBackward) return;
-            if (!triggerWasReached)
-                [self.previousForegroundController controllerWillAppear];
+            if (!triggerWasReached) {
+                @try {
+                    [self.previousForegroundController controllerWillAppear];
+                    [self.currentForegroundController controllerDidBegingPagingAway];
+                } @catch (NSException *exception) {}
+            }
             x = x - DefaultDragTriggerDistance;
         }
         else {
             if (!canPageForward) return;
-            if (!triggerWasReached)
-                [self.nextForegroundController controllerWillAppear];
+            if (!triggerWasReached) {
+                @try {
+                    [self.nextForegroundController controllerWillAppear];
+                    [self.currentForegroundController controllerDidBegingPagingAway];
+                } @catch (NSException *exception) {}
+            }
             x = x + DefaultDragTriggerDistance;
         }
         triggerWasReached = YES;
@@ -205,7 +213,9 @@
 }
 
 -(void) springToNextView {
-    [self.currentForegroundController controllerWillDisappear];
+    @try {
+        [self.currentForegroundController controllerWillDisappear];
+    } @catch (NSException *exception) {}
 	[UIView animateWithDuration:0.15
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
@@ -215,6 +225,11 @@
                          [[self previousForegroundView] withX:-StandardWidth];
                      }
                      completion:^(BOOL finished){
+                         @try {
+                             [self.currentForegroundController controllerDidDisappear];
+                         } @catch (NSException *exception) {}
+                         @try {[[self nextForegroundController] controllerDidAppear];}
+                         @catch (NSException *exception) {}
                          [self pageForward];
                      }];
 }
@@ -233,7 +248,9 @@
 }
 
 -(void)springToPreviousView {
-    [self.currentForegroundController controllerWillDisappear];
+    @try {
+        [self.currentForegroundController controllerWillDisappear];
+    } @catch (NSException *exception) {}
 	[UIView animateWithDuration:0.15
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
@@ -243,6 +260,11 @@
                          [[self previousForegroundView] withX:0];
                      }
                      completion:^(BOOL finished){
+                         @try {
+                             [self.currentForegroundController controllerDidDisappear];
+                         } @catch (NSException *exception) {}
+                         @try {[[self previousForegroundController] controllerDidAppear];}
+                         @catch (NSException *exception) {}
                          [self pageBackward];
                      }];
 }

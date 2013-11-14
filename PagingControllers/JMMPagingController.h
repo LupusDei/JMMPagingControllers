@@ -12,8 +12,13 @@
 
 @protocol PagedController
 +(UIViewController<PagedController> *) prepareControllerWithPager:(JMMPagingController *)pager;
+
+@optional
+-(void) controllerDidBegingPagingAway;
 -(void) controllerWillAppear;
+-(void) controllerDidAppear;
 -(void) controllerWillDisappear;
+-(void) controllerDidDisappear;
 @end
 
 @interface JMMPagingController : UIViewController
@@ -26,11 +31,12 @@
 -(UIView *) nextForegroundView;
 -(UIView *) previousForegroundView;
 
+
+-(void) disableForwardPaging;
+-(void) disableBackwardPaging;
+-(void) enablePaging;
+
 -(void) skipToNextPage;
 -(void) skipToPreviousPage;
 
-
-//These are for the PagingControllerView only
--(void) pageForward;
--(void) pageBackward;
 @end
