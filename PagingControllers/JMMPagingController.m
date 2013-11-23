@@ -36,6 +36,7 @@
 +(JMMPagingController *) pagingControllerWithControllerClasses:(NSArray *)controllers {
     JMMPagingController *jmm = [[JMMPagingController alloc] init];
     [jmm.pagedControllersClasses addObjectsFromArray:controllers];
+    [jmm addControllerAtIndex:0];
     return jmm;
 }
 
@@ -55,7 +56,6 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self enablePaging];
     [self disableBackwardPaging];
-    [self addControllerAtIndex:0];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -85,13 +85,16 @@
 }
 
 -(void) skipToNextPage {
-    if (![self isAtLastPage])
+    if (![self isAtLastPage]) {
+        [self.nextForegroundController controllerWillAppear];
         [self springToNextView];
-    
+    }
 }
 -(void) skipToPreviousPage {
-    if (![self isAtFirstPage])
+    if (![self isAtFirstPage]) {
+        [self.previousForegroundController controllerWillAppear];
         [self springToPreviousView];
+    }
 }
 
 -(UIViewController<PagedController> *)currentForegroundController {
@@ -145,12 +148,11 @@
 
 #pragma mark Panning
 -(void) enablePaging {
-    NSLog(@"Enable Paging");
     canPageForward = YES;
     canPageBackward = YES;
 }
 -(void) disableForwardPaging {
-    NSLog(@"Disable forward paging");
+
     canPageForward = NO;
 }
 -(void) disableBackwardPaging {
