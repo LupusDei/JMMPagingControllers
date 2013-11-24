@@ -7,11 +7,13 @@
 //
 
 #import "JMMPagingController.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define DefaultDragTriggerDistance 25
 #define DefaultDragPagingDistance 140
 
 #define StandardWidth 320
+#define DarkeningViewDivisor 4
 
 @interface JMMPagingController ()
 @property (nonatomic, strong) NSMutableArray *pagedControllersClasses;
@@ -23,6 +25,7 @@
     BOOL canPageForward;
     BOOL canPageBackward;
     BOOL triggerWasReached;
+    UIView *darkOverlay;
 }
 
 +(JMMPagingController *) pagingControllerWithFirstControllerClass:(Class)first
@@ -37,6 +40,8 @@
     JMMPagingController *jmm = [[JMMPagingController alloc] init];
     [jmm.pagedControllersClasses addObjectsFromArray:controllers];
     [jmm addControllerAtIndex:0];
+    UIViewController<PagedController> *first = [jmm currentForegroundController];
+    [first controllerWillAppear];
     return jmm;
 }
 
@@ -61,6 +66,16 @@
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self addControllerAtIndex:1];
+    darkOverlay = [[UIView alloc] initWithFrame:self.view.frame];
+    darkOverlay.backgroundColor = [UIColor blackColor];
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    UIViewController<PagedController> *first = [self currentForegroundController];
+    @try {[first controllerDidAppear];}
+    @catch (NSException *exception) {
+    }
 }
 
 -(void) addControllerAtIndex:(int)index {
@@ -71,9 +86,13 @@
     }
     Class controller = [self.pagedControllersClasses objectAtIndex:index];
 	page = [((id<PagedController>) controller) prepareControllerWithPager:self];
-    float xPos = self.view.width * (index - currentPage);
+    float xPos = (self.view.width * (index - currentPage)) * 1/3;
     [page.view withX:xPos];
-    [self.view addSubview:page.view];
+    if ([self.pagedControllers count] == 0)
+        [self.view addSubview:page.view];
+    else
+        [self.view insertSubview:page.view belowSubview:[self currentForegroundView]];
+    
     [self addChildViewController:page];
     [self.pagedControllers addObject:page];
     [self addPanGestureRecognizerToView:page.view];
@@ -177,6 +196,9 @@
                     [self.currentForegroundController controllerDidBegingPagingAway];
                 } @catch (NSException *exception) {}
             }
+            darkOverlay.frame = self.currentForegroundView.frame;
+            [self.view insertSubview:darkOverlay aboveSubview:self.currentForegroundView];
+            [self addShadowToView:self.previousForegroundView];
             x = x - DefaultDragTriggerDistance;
         }
         else {
@@ -187,6 +209,9 @@
                     [self.currentForegroundController controllerDidBegingPagingAway];
                 } @catch (NSException *exception) {}
             }
+            darkOverlay.frame = self.nextForegroundView.frame;
+            [self.view insertSubview:darkOverlay aboveSubview:self.nextForegroundView];
+            [self addShadowToView:self.currentForegroundView];
             x = x + DefaultDragTriggerDistance;
         }
         triggerWasReached = YES;
@@ -196,9 +221,18 @@
 -(BOOL) isPanningBackward:(CGFloat)x {return x > 0;}
 
 -(void) panAssociatedViewsWithNewX:(CGFloat)x {
-    [self.previousForegroundView withX:-StandardWidth + x];
-    [self.currentForegroundView withX:x];
-    [self.nextForegroundView withX:StandardWidth + x];
+    [self.previousForegroundView withX:(-StandardWidth  + x)];
+    [self.currentForegroundView withX: [self isPanningBackward:x] ? x/3 :x];
+    [self.nextForegroundView withX:(StandardWidth + x)/3];
+    if ([self isPanningBackward:x]){
+        darkOverlay.alpha = (x/(StandardWidth * DarkeningViewDivisor));
+    	darkOverlay.frame = self.currentForegroundView.frame;
+    }
+    else {
+    	darkOverlay.alpha = fabs(1.0/DarkeningViewDivisor - (fabs(x)/(StandardWidth * DarkeningViewDivisor)));
+        darkOverlay.frame = self.nextForegroundView.frame;
+    }
+    NSLog(@"ALPHA :%f", darkOverlay.alpha);
 }
 
 -(BOOL) hasReachedTriggerPoint:(CGFloat)x {
@@ -225,6 +259,7 @@
                          [[self currentForegroundView] withX: -StandardWidth];
                          [[self nextForegroundView] withX:0];
                          [[self previousForegroundView] withX:-StandardWidth];
+                         darkOverlay.alpha = 0;
                      }
                      completion:^(BOOL finished){
                          @try {
@@ -233,19 +268,26 @@
                          @try {[[self nextForegroundController] controllerDidAppear];}
                          @catch (NSException *exception) {}
                          [self pageForward];
+                         [self.view insertSubview:darkOverlay belowSubview:self.currentForegroundView];
                      }];
 }
 
 -(void)springBackToCurrentView {
+    CGFloat darkening = 1.0/DarkeningViewDivisor;
+    if (self.currentForegroundView.x > 0) {
+        darkening = 0;
+    }
 	[UIView animateWithDuration:0.15
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          [[self currentForegroundView] withX:0];
-                         [[self nextForegroundView] withX:StandardWidth];
+                         [[self nextForegroundView] withX:StandardWidth/3];
                          [[self previousForegroundView] withX:-StandardWidth];
+                         darkOverlay.alpha = darkening;
                      }
                      completion:^(BOOL finished){
+//                         [darkOverlay removeFromSuperview];
                      }];
 }
 
@@ -257,9 +299,10 @@
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         [[self currentForegroundView] withX:StandardWidth];
-                         [[self nextForegroundView] withX:StandardWidth];
+                         [[self currentForegroundView] withX:StandardWidth/3];
+                         [[self nextForegroundView] withX:StandardWidth/3];
                          [[self previousForegroundView] withX:0];
+                         darkOverlay.alpha = 1.0/DarkeningViewDivisor;
                      }
                      completion:^(BOOL finished){
                          @try {
@@ -268,6 +311,7 @@
                          @try {[[self previousForegroundController] controllerDidAppear];}
                          @catch (NSException *exception) {}
                          [self pageBackward];
+                         [darkOverlay removeFromSuperview];
                      }];
 }
 
@@ -284,6 +328,14 @@
 
 -(BOOL) hasAlreadyAddedControllerAtIndex:(int)index {
 	return index < [self.pagedControllers count];
+}
+
+-(void) addShadowToView:(UIView *)view {
+    view.layer.masksToBounds = NO;
+    view.layer.shadowOffset = CGSizeMake(1, 0);
+    view.layer.shadowRadius = 4;
+    view.layer.shadowOpacity = 0.2;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
 }
 
 - (void)didReceiveMemoryWarning

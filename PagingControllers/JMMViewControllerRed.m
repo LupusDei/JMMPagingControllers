@@ -19,9 +19,9 @@
 }
 
 -(void) controllerWillAppear {
-    [self.view setBackgroundColor:[UIColor redColor]];
-    [self.view withHeight:320];
-    [self.view withY:50];
+    [self.view setBackgroundColor:[UIColor colorWithWhite:0.98 alpha:1]];
+//    [self.view withHeight:320];
+//    [self.view withY:50];
     NSLog(@"Red -- controllerWillAppear");
 }
 

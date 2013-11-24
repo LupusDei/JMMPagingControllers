@@ -19,9 +19,9 @@
 }
 
 -(void) controllerWillAppear {
-    [self.view setBackgroundColor:[UIColor blueColor]];
-    [self.view withHeight:200];
-    [self.view withY:180];
+    [self.view setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+//    [self.view withHeight:320];
+    [self.view withY:0];
 }
 
 -(void) controllerWillDisappear {
@@ -35,6 +35,9 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    UILabel *view = [[UILabel alloc] initWithFrame:CGRectMake(100, 250, 120, 20)];
+    view.text = @"Helo workd";
+    [self.view addSubview:view];
     NSLog(@"Blue -- viewDidAppear");
 }
 
