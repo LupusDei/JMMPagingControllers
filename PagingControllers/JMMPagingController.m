@@ -25,6 +25,8 @@
     BOOL canPageForward;
     BOOL canPageBackward;
     BOOL triggerWasReached;
+    BOOL isPanning;
+    BOOL swipingToNowhere;
     UIView *darkOverlay;
 }
 
@@ -40,8 +42,6 @@
     JMMPagingController *jmm = [[JMMPagingController alloc] init];
     [jmm.pagedControllersClasses addObjectsFromArray:controllers];
     [jmm addControllerAtIndex:0];
-    UIViewController<PagedController> *first = [jmm currentForegroundController];
-    [first controllerWillAppear];
     return jmm;
 }
 
@@ -72,10 +72,6 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    UIViewController<PagedController> *first = [self currentForegroundController];
-    @try {[first controllerDidAppear];}
-    @catch (NSException *exception) {
-    }
 }
 
 -(void) addControllerAtIndex:(int)index {
@@ -101,6 +97,10 @@
 -(void) addPanGestureRecognizerToView:(UIView *)view {
     UIPanGestureRecognizer *panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(startedPanning:)];
     [view addGestureRecognizer:panner];
+}
+
+-(BOOL) isCurrentlyPanning {
+    return isPanning;
 }
 
 -(void) skipToNextPage {
@@ -171,25 +171,48 @@
     canPageBackward = YES;
 }
 -(void) disableForwardPaging {
-
+    
     canPageForward = NO;
 }
 -(void) disableBackwardPaging {
     canPageBackward = NO;
 }
 
+-(void) handleSwipingToNowhere {
+    @try {
+        if (!swipingToNowhere) {
+            [self.currentForegroundController attemptingToSwipeToNoWhere];
+        }
+    } @catch (NSException *e){}
+    swipingToNowhere = YES;
+}
+-(void) handleFinishedSwipingToNowhere {
+    @try {
+        if (swipingToNowhere) {
+            [self.currentForegroundController finishedSwipingToNowhere];
+        }
+    } @catch (NSException *e){}
+    swipingToNowhere = NO;
+}
+
+
 -(void) startedPanning:(UIPanGestureRecognizer *)panner {
+    isPanning = YES;
 	CGPoint newPoint = [panner translationInView:self.view];
     if (panner.state == UIGestureRecognizerStateEnded) {
         [self springAppropriatelyWithFinalX:newPoint.x];
         triggerWasReached = NO;
+        [self handleFinishedSwipingToNowhere];
     }
     else {
         CGFloat x = newPoint.x;
         if (![self hasReachedTriggerPoint:x]) return;
         
         if ([self isPanningBackward:x]) {
-            if (!canPageBackward) return;
+            if (!canPageBackward) {
+                [self handleSwipingToNowhere];
+                return;
+            }
             if (!triggerWasReached) {
                 @try {
                     [self.previousForegroundController controllerWillAppear];
@@ -232,7 +255,6 @@
     	darkOverlay.alpha = fabs(1.0/DarkeningViewDivisor - (fabs(x)/(StandardWidth * DarkeningViewDivisor)));
         darkOverlay.frame = self.nextForegroundView.frame;
     }
-    NSLog(@"ALPHA :%f", darkOverlay.alpha);
 }
 
 -(BOOL) hasReachedTriggerPoint:(CGFloat)x {
@@ -249,6 +271,7 @@
 }
 
 -(void) springToNextView {
+    isPanning = YES;
     @try {
         [self.currentForegroundController controllerWillDisappear];
     } @catch (NSException *exception) {}
@@ -269,10 +292,12 @@
                          @catch (NSException *exception) {}
                          [self pageForward];
                          [self.view insertSubview:darkOverlay belowSubview:self.currentForegroundView];
+                         [self finishSpring];
                      }];
 }
 
 -(void)springBackToCurrentView {
+    isPanning = YES;
     CGFloat darkening = 1.0/DarkeningViewDivisor;
     if (self.currentForegroundView.x > 0) {
         darkening = 0;
@@ -287,11 +312,12 @@
                          darkOverlay.alpha = darkening;
                      }
                      completion:^(BOOL finished){
-//                         [darkOverlay removeFromSuperview];
+                         [self finishSpring];
                      }];
 }
 
 -(void)springToPreviousView {
+    isPanning = YES;
     @try {
         [self.currentForegroundController controllerWillDisappear];
     } @catch (NSException *exception) {}
@@ -311,12 +337,17 @@
                          @try {[[self previousForegroundController] controllerDidAppear];}
                          @catch (NSException *exception) {}
                          [self pageBackward];
-                         [darkOverlay removeFromSuperview];
+                         [self finishSpring];
                      }];
 }
 
 
 #pragma mark Internal Helpers
+-(void) finishSpring {
+	[self clearShadows];
+    [darkOverlay removeFromSuperview];
+    isPanning = NO;
+}
 
 -(BOOL) isAtFirstPage {
     return currentPage == 0;
@@ -336,6 +367,15 @@
     view.layer.shadowRadius = 4;
     view.layer.shadowOpacity = 0.2;
     view.layer.shadowColor = [UIColor blackColor].CGColor;
+}
+
+-(void) clearShadows {
+    [self removeShadowFromView:self.currentForegroundView];
+    [self removeShadowFromView:self.nextForegroundView];
+    [self removeShadowFromView:self.previousForegroundView];
+}
+-(void) removeShadowFromView:(UIView *)view {
+    view.layer.shadowRadius = 0;
 }
 
 - (void)didReceiveMemoryWarning

@@ -19,6 +19,9 @@
 -(void) controllerDidAppear;
 -(void) controllerWillDisappear;
 -(void) controllerDidDisappear;
+
+-(void) attemptingToSwipeToNoWhere;
+-(void) finishedSwipingToNowhere;
 @end
 
 @interface JMMPagingController : UIViewController
