@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "62B712F51816216500184C82"
                BuildableName = "PagingControllers.app"
-               BlueprintName = "PagingControllers"
-               ReferencedContainer = "container:PagingControllers.xcodeproj">
+               BlueprintName = "JMMPagingControllers"
+               ReferencedContainer = "container:JMMPagingControllers.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "62B713161816216500184C82"
                BuildableName = "PagingControllersTests.xctest"
-               BlueprintName = "PagingControllersTests"
-               ReferencedContainer = "container:PagingControllers.xcodeproj">
+               BlueprintName = "JMMPagingControllersTests"
+               ReferencedContainer = "container:JMMPagingControllers.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "62B712F51816216500184C82"
             BuildableName = "PagingControllers.app"
-            BlueprintName = "PagingControllers"
-            ReferencedContainer = "container:PagingControllers.xcodeproj">
+            BlueprintName = "JMMPagingControllers"
+            ReferencedContainer = "container:JMMPagingControllers.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "62B712F51816216500184C82"
             BuildableName = "PagingControllers.app"
-            BlueprintName = "PagingControllers"
-            ReferencedContainer = "container:PagingControllers.xcodeproj">
+            BlueprintName = "JMMPagingControllers"
+            ReferencedContainer = "container:JMMPagingControllers.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "62B712F51816216500184C82"
             BuildableName = "PagingControllers.app"
-            BlueprintName = "PagingControllers"
-            ReferencedContainer = "container:PagingControllers.xcodeproj">
+            BlueprintName = "JMMPagingControllers"
+            ReferencedContainer = "container:JMMPagingControllers.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -39,23 +39,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		62B712F61816216500184C82 /* PagingControllers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PagingControllers.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		62B712F61816216500184C82 /* JMMPagingControllers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JMMPagingControllers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62B712F91816216500184C82 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		62B712FB1816216500184C82 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		62B712FD1816216500184C82 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		62B713011816216500184C82 /* PagingControllers-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PagingControllers-Info.plist"; sourceTree = "<group>"; };
+		62B713011816216500184C82 /* JMMPagingControllers-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JMMPagingControllers-Info.plist"; sourceTree = "<group>"; };
 		62B713031816216500184C82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		62B713051816216500184C82 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		62B713071816216500184C82 /* PagingControllers-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PagingControllers-Prefix.pch"; sourceTree = "<group>"; };
+		62B713071816216500184C82 /* JMMPagingControllers-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JMMPagingControllers-Prefix.pch"; sourceTree = "<group>"; };
 		62B713081816216500184C82 /* JMMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JMMAppDelegate.h; sourceTree = "<group>"; };
 		62B713091816216500184C82 /* JMMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JMMAppDelegate.m; sourceTree = "<group>"; };
 		62B7130C1816216500184C82 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		62B7130E1816216500184C82 /* JMMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JMMViewController.h; sourceTree = "<group>"; };
 		62B7130F1816216500184C82 /* JMMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JMMViewController.m; sourceTree = "<group>"; };
 		62B713111816216500184C82 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		62B713171816216500184C82 /* PagingControllersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagingControllersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		62B713171816216500184C82 /* JMMPagingControllersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JMMPagingControllersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		62B713181816216500184C82 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		62B713201816216500184C82 /* PagingControllersTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PagingControllersTests-Info.plist"; sourceTree = "<group>"; };
+		62B713201816216500184C82 /* JMMPagingControllersTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JMMPagingControllersTests-Info.plist"; sourceTree = "<group>"; };
 		62B713221816216500184C82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		62B713241816216500184C82 /* PagingControllersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PagingControllersTests.m; sourceTree = "<group>"; };
 		62B7132E1816228400184C82 /* JMMPagingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMPagingController.h; sourceTree = "<group>"; };
@@ -94,10 +94,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		625DD6811854F2AD00ACDA04 /* PagingController */ = {
+			isa = PBXGroup;
+			children = (
+				62B713311816283800184C82 /* UIView+SizeHelper.h */,
+				62B713321816283800184C82 /* UIView+SizeHelper.m */,
+				62B7132E1816228400184C82 /* JMMPagingController.h */,
+				62B7132F1816228400184C82 /* JMMPagingController.m */,
+			);
+			name = PagingController;
+			path = PagingControllers;
+			sourceTree = "<group>";
+		};
 		62B712ED1816216500184C82 = {
 			isa = PBXGroup;
 			children = (
-				62B712FF1816216500184C82 /* PagingControllers */,
+				625DD6811854F2AD00ACDA04 /* PagingController */,
+				62B712FF1816216500184C82 /* PagedControllers */,
 				62B7131E1816216500184C82 /* PagingControllersTests */,
 				62B712F81816216500184C82 /* Frameworks */,
 				62B712F71816216500184C82 /* Products */,
@@ -107,8 +120,8 @@
 		62B712F71816216500184C82 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				62B712F61816216500184C82 /* PagingControllers.app */,
-				62B713171816216500184C82 /* PagingControllersTests.xctest */,
+				62B712F61816216500184C82 /* JMMPagingControllers.app */,
+				62B713171816216500184C82 /* JMMPagingControllersTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,11 +137,9 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		62B712FF1816216500184C82 /* PagingControllers */ = {
+		62B712FF1816216500184C82 /* PagedControllers */ = {
 			isa = PBXGroup;
 			children = (
-				62B713311816283800184C82 /* UIView+SizeHelper.h */,
-				62B713321816283800184C82 /* UIView+SizeHelper.m */,
 				62B713081816216500184C82 /* JMMAppDelegate.h */,
 				62B713091816216500184C82 /* JMMAppDelegate.m */,
 				62B7130B1816216500184C82 /* Main.storyboard */,
@@ -142,19 +153,18 @@
 				62BBCDB11819EF0A00E9FB30 /* JMMViewControllerGreen.m */,
 				62B713111816216500184C82 /* Images.xcassets */,
 				62B713001816216500184C82 /* Supporting Files */,
-				62B7132E1816228400184C82 /* JMMPagingController.h */,
-				62B7132F1816228400184C82 /* JMMPagingController.m */,
 			);
+			name = PagedControllers;
 			path = PagingControllers;
 			sourceTree = "<group>";
 		};
 		62B713001816216500184C82 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				62B713011816216500184C82 /* PagingControllers-Info.plist */,
+				62B713011816216500184C82 /* JMMPagingControllers-Info.plist */,
 				62B713021816216500184C82 /* InfoPlist.strings */,
 				62B713051816216500184C82 /* main.m */,
-				62B713071816216500184C82 /* PagingControllers-Prefix.pch */,
+				62B713071816216500184C82 /* JMMPagingControllers-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -171,7 +181,7 @@
 		62B7131F1816216500184C82 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				62B713201816216500184C82 /* PagingControllersTests-Info.plist */,
+				62B713201816216500184C82 /* JMMPagingControllersTests-Info.plist */,
 				62B713211816216500184C82 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -180,9 +190,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		62B712F51816216500184C82 /* PagingControllers */ = {
+		62B712F51816216500184C82 /* JMMPagingControllers */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 62B713281816216500184C82 /* Build configuration list for PBXNativeTarget "PagingControllers" */;
+			buildConfigurationList = 62B713281816216500184C82 /* Build configuration list for PBXNativeTarget "JMMPagingControllers" */;
 			buildPhases = (
 				62B712F21816216500184C82 /* Sources */,
 				62B712F31816216500184C82 /* Frameworks */,
@@ -192,14 +202,14 @@
 			);
 			dependencies = (
 			);
-			name = PagingControllers;
+			name = JMMPagingControllers;
 			productName = PagingControllers;
-			productReference = 62B712F61816216500184C82 /* PagingControllers.app */;
+			productReference = 62B712F61816216500184C82 /* JMMPagingControllers.app */;
 			productType = "com.apple.product-type.application";
 		};
-		62B713161816216500184C82 /* PagingControllersTests */ = {
+		62B713161816216500184C82 /* JMMPagingControllersTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 62B7132B1816216500184C82 /* Build configuration list for PBXNativeTarget "PagingControllersTests" */;
+			buildConfigurationList = 62B7132B1816216500184C82 /* Build configuration list for PBXNativeTarget "JMMPagingControllersTests" */;
 			buildPhases = (
 				62B713131816216500184C82 /* Sources */,
 				62B713141816216500184C82 /* Frameworks */,
@@ -210,9 +220,9 @@
 			dependencies = (
 				62B7131D1816216500184C82 /* PBXTargetDependency */,
 			);
-			name = PagingControllersTests;
+			name = JMMPagingControllersTests;
 			productName = PagingControllersTests;
-			productReference = 62B713171816216500184C82 /* PagingControllersTests.xctest */;
+			productReference = 62B713171816216500184C82 /* JMMPagingControllersTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -230,7 +240,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 62B712F11816216500184C82 /* Build configuration list for PBXProject "PagingControllers" */;
+			buildConfigurationList = 62B712F11816216500184C82 /* Build configuration list for PBXProject "JMMPagingControllers" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -243,8 +253,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				62B712F51816216500184C82 /* PagingControllers */,
-				62B713161816216500184C82 /* PagingControllersTests */,
+				62B712F51816216500184C82 /* JMMPagingControllers */,
+				62B713161816216500184C82 /* JMMPagingControllersTests */,
 			);
 		};
 /* End PBXProject section */
@@ -299,7 +309,7 @@
 /* Begin PBXTargetDependency section */
 		62B7131D1816216500184C82 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 62B712F51816216500184C82 /* PagingControllers */;
+			target = 62B712F51816216500184C82 /* JMMPagingControllers */;
 			targetProxy = 62B7131C1816216500184C82 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -410,9 +420,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PagingControllers/PagingControllers-Prefix.pch";
-				INFOPLIST_FILE = "PagingControllers/PagingControllers-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "PagingControllers/JMMPagingControllers-Prefix.pch";
+				INFOPLIST_FILE = "PagingControllers/JMMPagingControllers-Info.plist";
+				PRODUCT_NAME = JMMPagingControllers;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -423,9 +433,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PagingControllers/PagingControllers-Prefix.pch";
-				INFOPLIST_FILE = "PagingControllers/PagingControllers-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "PagingControllers/JMMPagingControllers-Prefix.pch";
+				INFOPLIST_FILE = "PagingControllers/JMMPagingControllers-Info.plist";
+				PRODUCT_NAME = JMMPagingControllers;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -446,8 +456,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "PagingControllersTests/PagingControllersTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "PagingControllersTests/JMMPagingControllersTests-Info.plist";
+				PRODUCT_NAME = JMMPagingControllersTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -465,8 +475,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PagingControllers/PagingControllers-Prefix.pch";
-				INFOPLIST_FILE = "PagingControllersTests/PagingControllersTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "PagingControllersTests/JMMPagingControllersTests-Info.plist";
+				PRODUCT_NAME = JMMPagingControllersTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -475,7 +485,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		62B712F11816216500184C82 /* Build configuration list for PBXProject "PagingControllers" */ = {
+		62B712F11816216500184C82 /* Build configuration list for PBXProject "JMMPagingControllers" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				62B713261816216500184C82 /* Debug */,
@@ -484,7 +494,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		62B713281816216500184C82 /* Build configuration list for PBXNativeTarget "PagingControllers" */ = {
+		62B713281816216500184C82 /* Build configuration list for PBXNativeTarget "JMMPagingControllers" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				62B713291816216500184C82 /* Debug */,
@@ -493,7 +503,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		62B7132B1816216500184C82 /* Build configuration list for PBXNativeTarget "PagingControllersTests" */ = {
+		62B7132B1816216500184C82 /* Build configuration list for PBXNativeTarget "JMMPagingControllersTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				62B7132C1816216500184C82 /* Debug */,
